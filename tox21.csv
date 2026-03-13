@@ -1,0 +1,11 @@
+smiles,NR-AR
+CCO,0
+CC(=O)O,0
+C1=CC=CC=C1,1
+CCN(CC)CC,1
+CCOC(=O)C,0
+CC1=CC=C(C=C1)O,1
+CCCC,0
+CCCl,1
+CCBr,1
+CC(C)O,0
