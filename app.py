@@ -6,7 +6,6 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
-from rdkit.Chem import Draw
 
 
 # ---------- PAGE CONFIG ----------
@@ -40,17 +39,23 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-st.caption("Designed for AI-driven toxicity screening in early drug discovery")
 
 # ---------- LOAD MODEL ----------
 
-with open("toxicity_model.pkl", "rb") as f:
-    model = pickle.load(f)
+@st.cache_resource
+def load_model():
+    with open("toxicity_model.pkl", "rb") as f:
+        model = pickle.load(f)
+    return model
+
+model = load_model()
+
 
 # ---------- SESSION HISTORY ----------
 
 if "history" not in st.session_state:
     st.session_state.history = []
+
 
 # ---------- EXAMPLE MOLECULES ----------
 
@@ -66,6 +71,7 @@ example_choice = st.selectbox("Example Molecule", list(examples.keys()))
 
 smiles = st.text_input("Enter SMILES String", value=examples[example_choice])
 
+
 # ---------- PREDICT BUTTON ----------
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -74,6 +80,7 @@ col1, col2, col3 = st.columns([3,2,3])
 
 with col2:
     predict = st.button("Predict Toxicity", use_container_width=True)
+
 
 # ---------- PREDICTION ----------
 
@@ -95,9 +102,6 @@ if predict:
             prediction = model.predict(fp_array)[0]
             prob = model.predict_proba(fp_array)[0][1]
 
-            # Draw molecule
-            img = Draw.MolToImage(mol)
-
             # Molecular properties
             mw = Descriptors.MolWt(mol)
             logp = Descriptors.MolLogP(mol)
@@ -109,8 +113,8 @@ if predict:
             col1, col2 = st.columns(2)
 
             with col1:
-                st.subheader("Molecule Structure")
-                st.image(img)
+                st.subheader("Molecule (SMILES)")
+                st.code(smiles)
 
             with col2:
                 st.subheader("Molecular Properties")
@@ -120,6 +124,7 @@ if predict:
                 st.write(f"H-Bond Acceptors: {hba}")
 
             st.divider()
+
 
             # ---------- LIPINSKI RULE ----------
 
@@ -139,6 +144,7 @@ if predict:
 
             st.divider()
 
+
             # ---------- PREDICTION RESULT ----------
 
             st.subheader("Toxicity Prediction")
@@ -151,6 +157,7 @@ if predict:
                 pred_label = "Non-Toxic"
 
             st.write(f"Toxicity Probability: {prob:.4f}")
+
 
             # ---------- RISK BAR ----------
 
@@ -167,6 +174,7 @@ if predict:
 
             st.divider()
 
+
             # ---------- APPLICATIONS ----------
 
             st.subheader("Applications")
@@ -177,6 +185,7 @@ if predict:
 • Cheminformatics research  
 • Molecular property analysis
 """)
+
 
             # ---------- DOWNLOAD RESULT ----------
 
@@ -196,6 +205,7 @@ H-Bond Acceptors,{hba}
                 file_name="toxicity_result.csv"
             )
 
+
             # ---------- SAVE HISTORY ----------
 
             st.session_state.history.append({
@@ -203,6 +213,7 @@ H-Bond Acceptors,{hba}
                 "Prediction": pred_label,
                 "Probability": round(prob,4)
             })
+
 
 # ---------- HISTORY ----------
 
@@ -214,15 +225,14 @@ if st.session_state.history:
 
     history_df = pd.DataFrame(st.session_state.history)
 
-    # Convert probability to string so it aligns left
     history_df["Probability"] = history_df["Probability"].astype(str)
 
     st.dataframe(history_df)
+
 
 # ---------- FOOTER ----------
 
 st.markdown("---")
 st.markdown(
 "Developed using **Python, RDKit, Machine Learning, and Streamlit**"
-
 )
