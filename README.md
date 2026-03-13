@@ -4,8 +4,6 @@ This project is an AI-powered web application that predicts the toxicity of chem
 
 The application allows users to input chemical structures in SMILES format and analyze their toxicity along with molecular properties and drug-likeness.
 
----
-
 ## Features
 
 - Predicts chemical toxicity using a trained machine learning model
@@ -17,8 +15,6 @@ The application allows users to input chemical structures in SMILES format and a
 - Prediction history tracking
 - Download prediction results
 
----
-
 ## Technologies Used
 
 - Python
@@ -28,7 +24,15 @@ The application allows users to input chemical structures in SMILES format and a
 - Pandas
 - NumPy
 
----
+## Machine Learning Model
+
+The toxicity prediction model was trained using Scikit-learn
+based on molecular descriptors generated using RDKit.
+
+## Dataset
+
+The model is trained on the Tox21 dataset containing chemical
+compounds with toxicity labels used in computational toxicology research.
 
 ## How to Run the Project
 
@@ -37,7 +41,6 @@ The application allows users to input chemical structures in SMILES format and a
 2. Run the application:
    streamlit run app.py
 
----
 ## Application Preview
 
 ![App Screenshot](app_preview.png)
@@ -51,13 +54,9 @@ You can test the following molecules:
 - Paracetamol
 - Ibuprofen
 
----
-
 ## Project Objective
 
 The goal of this project is to demonstrate how artificial intelligence and cheminformatics tools can assist in early-stage drug discovery by predicting chemical toxicity and evaluating drug-likeness properties.
-
----
 
 ## Future Improvements
 
@@ -71,4 +70,5 @@ The goal of this project is to demonstrate how artificial intelligence and chemi
 Banashree Umesh Kudalagi 
 B.E. Computer Science Engineering  
 AI-Based Chemical Toxicity Predictor Project
+
 
