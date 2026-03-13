@@ -4,6 +4,9 @@ This project is an AI-powered web application that predicts the toxicity of chem
 
 The application allows users to input chemical structures in SMILES format and analyze their toxicity along with molecular properties and drug-likeness.
 
+## Live Application
+https://ai-chemical-toxicity-predictor-urxjxhy33cukowbqrgqzkb.streamlit.app/
+
 ## Features
 
 - Predicts chemical toxicity using a trained machine learning model
